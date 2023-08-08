@@ -10,4 +10,12 @@ class Review extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    function user() {
+        return $this->belongsTo(User::class)->withDefault();
+    }
+
+    function job() {
+        return $this->belongsTo(Job::class)->withDefault();
+    }
 }

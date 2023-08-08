@@ -10,4 +10,12 @@ class Proposal extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    function user() {
+        return $this->belongsTo(User::class)->withDefault();
+    }
+
+    function project() {
+        return $this->belongsTo(Project::class)->withDefault();
+    }
 }
