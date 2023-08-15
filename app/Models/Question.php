@@ -10,4 +10,12 @@ class Question extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    function exam() {
+        return $this->belongsTo(Exam::class)->withDefault();
+    }
+
+    function answers() {
+        return $this->hasMany(Answer::class);
+    }
 }
