@@ -20,6 +20,7 @@
 
 		<!--begin::Global Theme Styles(used by all pages) -->
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 		<!--begin:: Vendor Plugins -->
 		<link href="{{ asset('admin2asset/assets/plugins/general/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('admin2asset/assets/plugins/general/tether/dist/css/tether.css') }}" rel="stylesheet" type="text/css" />
@@ -95,6 +96,19 @@
 		<!--end::Layout Skins -->
 		<link rel="shortcut icon" href="{{ asset('admin2asset/assets/media/logos/favicon.ico') }}" />
 
+        <style>
+            .bg-custom {
+                background: #e5e5e5
+            }
+
+            .pulse {
+                width: 8px;
+                height: 8px;
+                display: inline-block;
+                background: #95fca9;
+                border-radius: 50%;
+            }
+        </style>
         @yield('css')
 	</head>
 
@@ -153,6 +167,7 @@
 							<div class="kt-header__topbar-item dropdown">
 								<div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
 									<span class="kt-header__topbar-icon kt-pulse kt-pulse--brand">
+                                        <span class="btn btn-success btn-sm btn-bold btn-font-md">{{ Auth::user()->unreadnotifications->count() }} new</span>
 										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
 											<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 												<rect x="0" y="0" width="24" height="24" />
@@ -171,7 +186,7 @@
 											<h3 class="kt-head__title">
 												User Notifications
 												&nbsp;
-												<span class="btn btn-success btn-sm btn-bold btn-font-md">23 new</span>
+
 											</h3>
 
 										</div>
@@ -180,33 +195,23 @@
 										<div class="tab-content">
 											<div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
 												<div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true" data-height="300" data-mobile-height="200">
+                                                    @foreach (Auth::user()->notifications as $nt)
+                                                    <a href="{{ route('read', $nt->id) }}" class=" {{ $nt->read_at ? '' : 'bg-custom' }} kt-notification__item kt-notification__item--read">
+														<div class="kt-notification__item-details">
+															<div class="kt-notification__item-title">
+                                                                @if (!$nt->read_at)
+                                                                <small class="pulse"></small>
+                                                                @endif
 
-													<a href="#" class="kt-notification__item kt-notification__item--read">
-														<div class="kt-notification__item-icon">
-															<i class="flaticon2-safe kt-font-primary"></i>
-														</div>
-														<div class="kt-notification__item-details">
-															<div class="kt-notification__item-title">
-																Company meeting canceled
+																{{ $nt->data['msg'] }}
 															</div>
 															<div class="kt-notification__item-time">
-																19 hrs ago
+																{{ $nt->created_at->diffForHumans() }}
 															</div>
 														</div>
 													</a>
-													<a href="#" class="kt-notification__item">
-														<div class="kt-notification__item-icon">
-															<i class="flaticon2-psd kt-font-success"></i>
-														</div>
-														<div class="kt-notification__item-details">
-															<div class="kt-notification__item-title">
-																New report has been received
-															</div>
-															<div class="kt-notification__item-time">
-																23 hrs ago
-															</div>
-														</div>
-													</a>
+                                                    @endforeach
+
 												</div>
 											</div>
 
@@ -1319,6 +1324,7 @@
 		<script src="{{ asset('admin2asset/assets/plugins/custom/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('admin2asset/assets/plugins/custom/tinymce/themes/silver/theme.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('admin2asset/assets/plugins/custom/tinymce/themes/mobile/theme.js') }}" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 		<!--end:: Vendor Plugins for custom pages -->
 
@@ -1330,6 +1336,13 @@
 
 		<!--end::Page Scripts -->
         @yield('js')
+
+        <script>
+            let userId = '{{ Auth::id() }}';
+        </script>
+
+        @vite(['resources/js/app.js'])
+
 	</body>
 
 	<!-- end::Body -->

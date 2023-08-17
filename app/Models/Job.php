@@ -11,6 +11,8 @@ class Job extends Model
 
     protected $guarded = [];
 
+    protected $table = 'my_jobs';
+
     function user() {
         return $this->belongsTo(User::class)->withDefault();
     }
