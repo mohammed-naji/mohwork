@@ -167,7 +167,7 @@
 							<div class="kt-header__topbar-item dropdown">
 								<div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
 									<span class="kt-header__topbar-icon kt-pulse kt-pulse--brand">
-                                        <span class="btn btn-success btn-sm btn-bold btn-font-md">{{ Auth::user()->unreadnotifications->count() }} new</span>
+                                        <span class="btn btn-success btn-sm btn-bold btn-font-md">{{ Auth::guard('admin')->user()->unreadnotifications->count() }} new</span>
 										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
 											<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 												<rect x="0" y="0" width="24" height="24" />
@@ -195,7 +195,7 @@
 										<div class="tab-content">
 											<div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
 												<div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true" data-height="300" data-mobile-height="200">
-                                                    @foreach (Auth::user()->notifications as $nt)
+                                                    @foreach (Auth::guard('admin')->user()->notifications as $nt)
                                                     <a href="{{ route('read', $nt->id) }}" class=" {{ $nt->read_at ? '' : 'bg-custom' }} kt-notification__item kt-notification__item--read">
 														<div class="kt-notification__item-details">
 															<div class="kt-notification__item-title">
@@ -253,18 +253,26 @@
 								<div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
 									<div class="kt-header__topbar-user">
 										<span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span>
-										<span class="kt-header__topbar-username kt-hidden-mobile">{{ Auth::user()->name }}</span>
-										{{-- <img alt="Pic" src="{{ asset('admin2asset/assets/media/users/300_25.jpg') }}" /> --}}
+										<span class="kt-header__topbar-username kt-hidden-mobile">{{ Auth::guard('admin')->user()->name }}</span>
+
 
 										<!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                                         @php
-                                            $name = Auth::user()->name;
+                                            $name = Auth::guard('admin')->user()->name;
                                             $name = explode(' ', $name);
                                             $fletter = str_split($name[0], 1)[0];
                                             $lletter = str_split($name[1], 1)[0];
 
                                         @endphp
-										<span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">{{ $fletter . $lletter }}</span>
+
+                                        <div class="admin_img_wrapper">
+                                            @if (Auth::guard('admin')->user()->image)
+                                            <img class="admin_img" alt="Pic" src="{{ asset(Auth::guard('admin')->user()->image) }}" />
+                                            @else
+                                            <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">{{ $fletter . $lletter }}</span>
+                                            @endif
+                                        </div>
+
 									</div>
 								</div>
 								<div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
@@ -275,10 +283,18 @@
 											<img class="kt-hidden" alt="Pic" src="{{ asset('admin2asset/assets/media/users/300_25.jpg') }}" />
 
 											<!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-											<span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success">{{ $fletter . $lletter }}</span>
+											{{-- <span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success">{{ $fletter . $lletter }}</span> --}}
+
+                                            <div class="admin_img_wrapper">
+                                                @if (Auth::guard('admin')->user()->image)
+                                                <img class="admin_img" alt="Pic" src="{{ asset(Auth::guard('admin')->user()->image) }}" />
+                                                @else
+                                                <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">{{ $fletter . $lletter }}</span>
+                                                @endif
+                                            </div>
 										</div>
 										<div class="kt-user-card__name">
-											{{ Auth::user()->name }}
+											{{ Auth::guard('admin')->user()->name }}
 										</div>
 									</div>
 
@@ -286,7 +302,7 @@
 
 									<!--begin: Navigation -->
 									<div class="kt-notification">
-										<a href="custom/apps/user/profile-1/personal-information.html" class="kt-notification__item">
+										<a href="{{ route('admin.profile') }}" class="kt-notification__item">
 											<div class="kt-notification__item-icon">
 												<i class="flaticon2-calendar-3 kt-font-success"></i>
 											</div>
@@ -299,6 +315,18 @@
 												</div>
 											</div>
 										</a>
+
+                                        <a href="{{ route('admin.profile_password') }}" class="kt-notification__item">
+											<div class="kt-notification__item-icon">
+												<i class="fas fa-lock"></i>
+											</div>
+											<div class="kt-notification__item-details">
+												<div class="kt-notification__item-title kt-font-bold">
+													Update Password
+												</div>
+											</div>
+										</a>
+
 										<a  onclick="event.preventDefault();
                                         document.querySelector('#logout-form').submit();" href="{{ route('logout') }}" class="kt-notification__item">
 											<div class="kt-notification__item-icon">
