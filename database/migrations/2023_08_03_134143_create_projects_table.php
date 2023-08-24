@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->double('price', 10, 2);
-            $table->double('price_type', 10, 2);
+            // $table->double('price_type', 10, 2);
             $table->string('duration');
-            $table->enum('status', ['open', 'close']);
+            $table->enum('status', ['open', 'close'])->default('open');
             $table->timestamps();
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\ProjectController;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('questions', function() {
     return Question::all();
 });
+
+Route::post('login', [AuthController::class, 'login']);
+
+Route::apiResource('projects', ProjectController::class)->middleware('auth:sanctum');
+
+//
