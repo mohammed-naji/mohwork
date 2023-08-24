@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
@@ -37,8 +38,11 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-
-
 // Test routes
 Route::get('/send-notification', [TestController::class, 'send']);
 Route::get('/read-notification/{id}', [TestController::class, 'read'])->name('read');
+
+
+// Api Test
+Route::get('products', [ApiController::class, 'products']);
+Route::get('weather', [ApiController::class, 'weather']);
