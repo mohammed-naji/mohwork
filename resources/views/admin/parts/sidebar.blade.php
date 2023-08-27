@@ -58,18 +58,18 @@
                                 <span class="kt-menu__link-icon">
                                     <i class="fas fa-heart"></i>
                                 </span>
-                                <span class="kt-menu__link-text">Services</span><i
+                                <span class="kt-menu__link-text">Projects</span><i
                                     class="kt-menu__ver-arrow la la-angle-right"></i></a>
                             <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">
                                     <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span
-                                            class="kt-menu__link"><span class="kt-menu__link-text">All Services</span></span></li>
-                                    <li class="kt-menu__item " aria-haspopup="true"><a href="{{ route('admin.questions.index') }}"
+                                            class="kt-menu__link"><span class="kt-menu__link-text">All Projects</span></span></li>
+                                    <li class="kt-menu__item " aria-haspopup="true"><a href="{{ route('admin.projects.index') }}"
                                             class="kt-menu__link "><i
                                                 class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                                                class="kt-menu__link-text">All Services</span></a></li>
+                                                class="kt-menu__link-text">All Projects</span></a></li>
 
-                                    <li class="kt-menu__item " aria-haspopup="true"><a href="{{ route('admin.questions.create') }}"
+                                    <li class="kt-menu__item " aria-haspopup="true"><a href="{{ route('admin.projects.create') }}"
                                             class="kt-menu__link "><i
                                                 class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                 class="kt-menu__link-text">Add New</span></a></li>

@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, Scope;
 
     protected $guarded = [];
 
@@ -25,5 +28,9 @@ class Project extends Model
 
     function job() {
         return $this->hasOne(Job::class);
+    }
+
+    function scopeOpen(Builder $query) {
+        $query->where('status', 'open');
     }
 }

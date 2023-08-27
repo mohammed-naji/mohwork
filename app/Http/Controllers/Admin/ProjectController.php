@@ -6,6 +6,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class ProjectController extends Controller
 {
@@ -17,7 +18,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest('id')->paginate(10);
+        $projects = Project::open()->latest('id')->paginate(10);
+        // $projects = Project::latest('id')->dd();
 
         return view('admin.projects.index', compact('projects'));
     }
@@ -100,5 +102,27 @@ class ProjectController extends Controller
         Project::destroy($id);
 
         return redirect()->route('admin.projects.index')->with('msg', 'Project deleted successfully')->with('type', 'danger');
+    }
+
+    function trash() {
+        $projects = Project::onlyTrashed()->latest('id')->paginate(10);
+
+        return view('admin.projects.trash', compact('projects'));
+    }
+
+    function restore($id) {
+        Project::onlyTrashed()->find($id)->restore();
+        // $project->update(['deleted_at' => null]);
+
+        return redirect()->route('admin.projects.index')->with('msg', 'Project restored successfully')->with('type', 'info');
+    }
+
+    function forcedelete($id) {
+        $project = Project::onlyTrashed()->find($id);
+        File::delete(public_path($project->image));
+        $project->forcedelete();
+        // $project->update(['deleted_at' => null]);
+
+        return redirect()->route('admin.projects.index')->with('msg', 'Project deleted permanently successfully')->with('type', 'info');
     }
 }

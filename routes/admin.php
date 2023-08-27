@@ -21,7 +21,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
         Route::post('/profile/password', [AdminController::class, 'profile_password_update']);
 
         Route::resource('questions', QuestionController::class);
+
+        Route::get('/projects/trash', [ProjectController::class, 'trash'])->name('projects.trash');
+        Route::get('/projects/{project}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
+        Route::delete('/projects/{project}/forcedelete', [ProjectController::class, 'forcedelete'])->name('projects.forcedelete');
         Route::resource('projects', ProjectController::class);
+
     });
 });
 
