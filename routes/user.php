@@ -9,7 +9,4 @@ Route::prefix('user')->name('user.')->middleware('auth:web')->group(function() {
 });
 
 
-
-
-
 //

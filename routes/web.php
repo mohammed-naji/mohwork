@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
+use App\Services\GlobalService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +18,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     // return view('dashboard');
@@ -46,3 +44,11 @@ Route::get('/read-notification/{id}', [TestController::class, 'read'])->name('re
 // Api Test
 Route::get('products', [ApiController::class, 'products']);
 Route::get('weather', [ApiController::class, 'weather']);
+
+
+// Website Routes
+Route::get('/main/new', [HomeController::class, 'index'])->name('front.home');
+
+// GlobalService::Routes();
+
+//
