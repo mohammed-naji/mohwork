@@ -33,6 +33,7 @@
                         <th>Title</th>
                         <th>Price</th>
                         <th>Status</th>
+                        <th>Pay</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -44,6 +45,7 @@
                             <td>{{ $project->title }}</td>
                             <td>{{ $project->price }}</td>
                             <td>{!! $project->status == 'open' ? '<span class="badge badge-success">'.$project->status.'</span>' : '<span class="badge badge-danger">'.$project->status.'</span>' !!}</td>
+                            <td><a class="btn btn-success" href="{{ route('admin.projects.pay', $project) }}">Pay Now</a></td>
                             <td>
                                 <a class="btn btn-primary btn-sm p-1" href="{{ route('admin.projects.edit', $project->id) }}">
                                     <i class="fas fa-edit" style="position: relative;
