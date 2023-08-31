@@ -20,6 +20,7 @@ return new class extends Migration
             // $table->double('price_type', 10, 2);
             $table->string('duration');
             $table->enum('status', ['open', 'close'])->default('open');
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }

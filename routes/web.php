@@ -47,8 +47,18 @@ Route::get('weather', [ApiController::class, 'weather']);
 
 
 // Website Routes
-Route::get('/main/new', [HomeController::class, 'index'])->name('front.home');
+Route::get('/', [HomeController::class, 'index'])->name('front.home');
+
+Route::get('/project/{project:slug}', [HomeController::class, 'project'])->name('front.project');
+Route::post('/project/{project:slug}/apply', [HomeController::class, 'project_apply'])->name('front.project_apply');
 
 // GlobalService::Routes();
 
+//
+
+
+
+// Real Madrid Sign New Player
+
+// news/real-madrid-sign-new-player
 //

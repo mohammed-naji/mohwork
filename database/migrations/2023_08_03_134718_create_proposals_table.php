@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('project_id');
             $table->double('price', 10, 2);
+            $table->string('duration');
             $table->text('content');
             $table->enum('status', ['processing', 'accepted', 'rejected'])->default('processing');
             $table->timestamps();

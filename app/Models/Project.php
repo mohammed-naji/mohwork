@@ -14,6 +14,11 @@ class Project extends Model
 
     protected $guarded = [];
 
+    // public function getRouteKeyName()
+    // {
+    //     return 'slug';
+    // }
+
     function user() {
         return $this->belongsTo(User::class)->withDefault();
     }
@@ -30,7 +35,7 @@ class Project extends Model
         return $this->hasOne(Job::class);
     }
 
-    function scopeOpen(Builder $query) {
-        $query->where('status', 'open');
-    }
+    // function scopeOpen(Builder $query) {
+    //     $query->where('status', 'open');
+    // }
 }

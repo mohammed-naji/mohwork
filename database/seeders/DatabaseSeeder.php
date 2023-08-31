@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Project::truncate();
         Project::factory(10)->create();
         // Admin::truncate();
         // Question::truncate();

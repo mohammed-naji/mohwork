@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::open()->latest('id')->paginate(10);
+        // $projects = Project::open()->latest('id')->paginate(10);
+        $projects = Project::latest('id')->paginate(10);
         // $projects = Project::latest('id')->dd();
 
         return view('admin.projects.index', compact('projects'));
@@ -47,6 +49,7 @@ class ProjectController extends Controller
 
         $data = $request->except('_token');
         $data['user_id'] = Auth::guard('admin')->id();
+        $data['slug'] = Str::slug($request->title);
 
         Project::create($data);
 
