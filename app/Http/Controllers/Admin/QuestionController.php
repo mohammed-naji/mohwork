@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use App\Models\Question;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class QuestionController extends Controller
 {
@@ -15,6 +16,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_questions');
         $questions = Question::latest('id')->get();
 
         return view('admin.questions.index', compact('questions'));
@@ -25,6 +27,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
+        Gate::authorize('store_questions');
         return view('admin.questions.create');
     }
 
@@ -34,7 +37,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-
+        Gate::authorize('store_questions');
         $request->validate([
             'title' => 'required'
         ]);

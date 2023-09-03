@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
@@ -19,6 +20,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_projects');
         // $projects = Project::open()->latest('id')->paginate(10);
         $projects = Project::latest('id')->paginate(10);
         // $projects = Project::latest('id')->dd();
@@ -31,6 +33,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        Gate::authorize('store_projects');
         return view('admin.projects.create');
     }
 
@@ -39,6 +42,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('store_projects');
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -69,6 +73,7 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit_projects');
         $project = Project::findOrFail($id);
 
         return view('admin.projects.edit', compact('project'));
@@ -79,6 +84,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit_projects');
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -102,6 +108,7 @@ class ProjectController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete_projects');
         Project::destroy($id);
 
         return redirect()->route('admin.projects.index')->with('msg', 'Project deleted successfully')->with('type', 'danger');

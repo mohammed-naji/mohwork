@@ -4,8 +4,8 @@
 @section('content')
 
 <div class="col-12">
-    <h1>All Projects</h1>
-    <a class="btn btn-danger" href="{{ route('admin.projects.trash') }}"><i class="fas fa-trash"></i> Trashed Projects</a>
+    <h1>Trashed Projects</h1>
+    <a class="btn btn-success" href="{{ route('admin.projects.index') }}"><i class="fas fa-heart"></i> All Projects</a>
     <div class="kt-portlet kt-portlet--mobile">
         <div class="kt-portlet__head kt-portlet__head--lg">
             <div class="kt-portlet__head-label">
@@ -31,9 +31,6 @@
                         <th>ID</th>
                         <th>Image</th>
                         <th>Title</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Pay</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -43,28 +40,20 @@
                             <td>{{ $project->id }}</td>
                             <td><img width="80" src="{{ asset($project->image) }}" alt=""></td>
                             <td>{{ $project->title }}</td>
-                            <td>{{ $project->price }}</td>
-                            <td>{!! $project->status == 'open' ? '<span class="badge badge-success">'.$project->status.'</span>' : '<span class="badge badge-danger">'.$project->status.'</span>' !!}</td>
-                            <td><a class="btn btn-success" href="{{ route('admin.projects.pay', $project) }}">Pay Now</a></td>
+
                             <td>
-                                @can('edit_projects')
-                                <a class="btn btn-primary btn-sm p-1" href="{{ route('admin.projects.edit', $project->id) }}">
-                                    <i class="fas fa-edit" style="position: relative;
+                                <a class="btn btn-primary btn-sm p-1" href="{{ route('admin.projects.restore', $project->id) }}">
+                                    <i class="fas fa-undo" style="position: relative;
                                     left: 3px;"></i>
                                 </a>
-                                @endcan
-
-                                @can('delete_projects')
-                                <form class="d-inline" action="{{ route('admin.projects.destroy', $project->id) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button onclick="return confirm('Are you sure?!')" class="btn btn-danger btn-sm p-1">
-                                        <i class="fas fa-trash" style="position: relative;
-                                        left: 3px;"></i>
-                                    </button>
-                                    </form>
-                                @endcan
-
+                                <form class="d-inline" action="{{ route('admin.projects.forcedelete', $project->id) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button onclick="return confirm('Are you sure?!')" class="btn btn-danger btn-sm p-1">
+                                    <i class="fas fa-times" style="position: relative;
+                                    left: 3px;"></i>
+                                </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

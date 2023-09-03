@@ -16,8 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Project::truncate();
-        Project::factory(10)->create();
+        $this->call(PermissionSeeder::class);
+
+        // Project::truncate();
+        // Project::factory(10)->create();
         // Admin::truncate();
         // Question::truncate();
         // $this->call(AdminSeeder::class);
